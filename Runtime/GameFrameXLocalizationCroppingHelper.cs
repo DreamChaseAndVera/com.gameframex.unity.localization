@@ -14,6 +14,8 @@ namespace GameFrameX.Localization.Runtime
             _ = typeof(LoadDictionaryUpdateEventArgs);
             _ = typeof(LocalizationManager);
             _ = typeof(DefaultLocalizationHelper);
+            _ = typeof(LocalizationComponent);
+            _ = typeof(LocalizationHelperBase);
         }
     }
 }
