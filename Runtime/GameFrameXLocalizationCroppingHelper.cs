@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Localization.Runtime
 {
+    [Preserve]
     public class GameFrameXLocalizationCroppingHelper : MonoBehaviour
     {
+        [Preserve]
         private void Start()
         {
             _ = typeof(ILocalizationHelper);
