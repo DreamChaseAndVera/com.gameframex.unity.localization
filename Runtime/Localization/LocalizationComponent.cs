@@ -23,16 +23,27 @@ namespace GameFrameX.Localization.Runtime
         private const int DefaultPriority = 0;
 
         private ILocalizationManager m_LocalizationManager = null;
+
         private EventComponent m_EventComponent = null;
 
-        [SerializeField] private bool m_EnableLoadDictionaryUpdateEvent = false;
+        [SerializeField] private Language m_EditorLanguage = Language.Unspecified;
 
+        [SerializeField] private bool m_EnableLoadDictionaryUpdateEvent = false;
 
         [SerializeField] private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
 
         [SerializeField] private LocalizationHelperBase m_CustomLocalizationHelper = null;
 
         [SerializeField] private int m_CachedBytesSize = 0;
+
+        /// <summary>
+        /// 获取或设置编辑器语言（仅编辑器内有效）。
+        /// </summary>
+        public Language EditorLanguage
+        {
+            get { return m_EditorLanguage; }
+            set { m_EditorLanguage = value; }
+        }
 
         /// <summary>
         /// 获取或设置本地化语言。
@@ -124,9 +135,7 @@ namespace GameFrameX.Localization.Runtime
             localizationHelperTransform.localScale = Vector3.one;
 
             m_LocalizationManager.SetLocalizationHelper(localizationHelper);
-            m_LocalizationManager.Language = baseComponent.EditorLanguage != Language.Unspecified
-                ? baseComponent.EditorLanguage
-                : m_LocalizationManager.SystemLanguage;
+            // m_LocalizationManager.Language = baseComponent.EditorLanguage != Language.Unspecified ? baseComponent.EditorLanguage : m_LocalizationManager.SystemLanguage;
             if (m_CachedBytesSize > 0)
             {
                 EnsureCachedBytesSize(m_CachedBytesSize);
