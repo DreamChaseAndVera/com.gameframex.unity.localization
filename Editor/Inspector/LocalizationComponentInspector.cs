@@ -12,7 +12,7 @@ using UnityEditor;
 namespace GameFrameX.Localization.Editor
 {
     [CustomEditor(typeof(LocalizationComponent))]
-    internal sealed class LocalizationComponentInspector : GameFrameworkInspector
+    internal sealed class LocalizationComponentInspector : ComponentTypeComponentInspector
     {
         private SerializedProperty m_EnableLoadDictionaryUpdateEvent = null;
         private SerializedProperty m_CachedBytesSize = null;
@@ -58,20 +58,19 @@ namespace GameFrameX.Localization.Editor
             RefreshTypeNames();
         }
 
-        private void OnEnable()
+        protected override void Enable()
         {
             m_EnableLoadDictionaryUpdateEvent = serializedObject.FindProperty("m_EnableLoadDictionaryUpdateEvent");
             m_CachedBytesSize = serializedObject.FindProperty("m_CachedBytesSize");
             m_EditorLanguage = serializedObject.FindProperty("m_EditorLanguage");
             m_LocalizationHelperInfo.Init(serializedObject);
-
-            RefreshTypeNames();
-        }
-
-        private void RefreshTypeNames()
-        {
             m_LocalizationHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
+        }
+
+        protected override void RefreshTypeNames()
+        {
+            RefreshComponentTypeNames(typeof(ILocalizationManager));
         }
     }
 }

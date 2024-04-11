@@ -5,6 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System;
 using GameFrameX.Asset;
 using GameFrameX.Asset.Runtime;
 using GameFrameX.Event.Runtime;
@@ -83,8 +84,9 @@ namespace GameFrameX.Localization.Runtime
         /// </summary>
         protected override void Awake()
         {
+            ImplementationComponentType = Type.GetType(componentType);
+            InterfaceComponentType = typeof(ILocalizationManager);
             base.Awake();
-            new LocalizationManager();
             m_LocalizationManager = GameFrameworkEntry.GetModule<ILocalizationManager>();
             if (m_LocalizationManager == null)
             {
