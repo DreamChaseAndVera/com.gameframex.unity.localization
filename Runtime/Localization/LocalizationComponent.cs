@@ -84,7 +84,7 @@ namespace GameFrameX.Localization.Runtime
         /// </summary>
         protected override void Awake()
         {
-            ImplementationComponentType = Type.GetType(componentType);
+            ImplementationComponentType = Utility.Assembly.GetType(componentType);
             InterfaceComponentType = typeof(ILocalizationManager);
             base.Awake();
             m_LocalizationManager = GameFrameworkEntry.GetModule<ILocalizationManager>();
