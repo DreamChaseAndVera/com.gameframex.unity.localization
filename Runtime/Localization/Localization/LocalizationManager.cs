@@ -9,12 +9,14 @@ using System;
 using System.Collections.Generic;
 using GameFrameX.Asset;
 using GameFrameX.Asset.Runtime;
+using GameFrameX.Runtime;
 
 namespace GameFrameX.Localization.Runtime
 {
     /// <summary>
     /// 本地化管理器。
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     public sealed partial class LocalizationManager : GameFrameworkModule, ILocalizationManager
     {
         private readonly Dictionary<string, string> _dictionary;
