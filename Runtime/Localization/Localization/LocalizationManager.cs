@@ -21,6 +21,7 @@ namespace GameFrameX.Localization.Runtime
     {
         private readonly Dictionary<string, string> _dictionary;
         private ILocalizationHelper _localizationHelper;
+        private Language _defaultLanguage;
         private Language _language;
 
         /// <summary>
@@ -30,7 +31,25 @@ namespace GameFrameX.Localization.Runtime
         {
             _dictionary = new Dictionary<string, string>(StringComparer.Ordinal);
             _localizationHelper = null;
+            _defaultLanguage = Language.Unspecified;
             _language = Language.Unspecified;
+        }
+
+        /// <summary>
+        /// 获取或设置 默认本地化语言。当加载本地化失败时使用。
+        /// </summary>
+        public Language DefaultLanguage
+        {
+            get { return _defaultLanguage; }
+            set
+            {
+                if (value == Language.Unspecified)
+                {
+                    throw new GameFrameworkException("default Language is invalid.");
+                }
+
+                _defaultLanguage = value;
+            }
         }
 
         /// <summary>

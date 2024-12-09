@@ -16,6 +16,11 @@ namespace GameFrameX.Localization.Runtime
     public interface ILocalizationManager
     {
         /// <summary>
+        /// 获取或设置 默认本地化语言。当加载本地化失败时使用。
+        /// </summary>
+        Language DefaultLanguage { get; set; }
+
+        /// <summary>
         /// 获取或设置本地化语言。
         /// </summary>
         Language Language { get; set; }

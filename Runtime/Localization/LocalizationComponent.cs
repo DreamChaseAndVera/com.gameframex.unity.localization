@@ -6,10 +6,10 @@
 //------------------------------------------------------------
 
 using System;
-using GameFrameX.Asset;
 using GameFrameX.Asset.Runtime;
 using GameFrameX.Event.Runtime;
 using GameFrameX.Runtime;
+using GameFrameX.Setting.Runtime;
 using UnityEngine;
 
 namespace GameFrameX.Localization.Runtime
@@ -21,21 +21,21 @@ namespace GameFrameX.Localization.Runtime
     [AddComponentMenu("Game Framework/Localization")]
     public sealed class LocalizationComponent : GameFrameworkComponent
     {
-        private const int DefaultPriority = 0;
-
         private ILocalizationManager m_LocalizationManager = null;
 
         private EventComponent m_EventComponent = null;
+        private SettingComponent m_SettingComponent = null;
 
         [SerializeField] private Language m_EditorLanguage = Language.Unspecified;
 
+        [SerializeField] private Language m_DefaultLanguage = Language.Unspecified;
+
         [SerializeField] private bool m_EnableLoadDictionaryUpdateEvent = false;
 
-        [SerializeField] private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
+        [SerializeField] private string m_LocalizationHelperTypeName = "GameFrameX.Localization.Runtime.DefaultLocalizationHelper";
 
         [SerializeField] private LocalizationHelperBase m_CustomLocalizationHelper = null;
 
-        [SerializeField] private int m_CachedBytesSize = 0;
 
         /// <summary>
         /// 获取或设置编辑器语言（仅编辑器内有效）。
@@ -44,6 +44,34 @@ namespace GameFrameX.Localization.Runtime
         {
             get { return m_EditorLanguage; }
             set { m_EditorLanguage = value; }
+        }
+
+        /// <summary>
+        /// 获取或设置 默认本地化语言。当加载本地化失败时使用。
+        /// </summary>
+        public Language DefaultLanguage
+        {
+            get
+            {
+                if (m_LocalizationManager.DefaultLanguage == Language.Unspecified)
+                {
+                    var value = m_SettingComponent.GetString(nameof(LocalizationComponent) + "." + nameof(DefaultLanguage));
+                    if (value.IsNotNullOrWhiteSpace() && Enum.TryParse(value, true, out Language result))
+                    {
+                        m_LocalizationManager.DefaultLanguage = result;
+                    }
+                }
+
+                return m_LocalizationManager.DefaultLanguage;
+            }
+            set
+            {
+                if (m_LocalizationManager.DefaultLanguage != value)
+                {
+                    m_LocalizationManager.DefaultLanguage = value;
+                    m_SettingComponent.SetString(nameof(LocalizationComponent) + "." + nameof(DefaultLanguage), value.ToString());
+                }
+            }
         }
 
         /// <summary>
@@ -119,12 +147,16 @@ namespace GameFrameX.Localization.Runtime
                 return;
             }
 
+            m_SettingComponent = GameEntry.GetComponent<SettingComponent>();
+            if (m_SettingComponent == null)
+            {
+                Log.Fatal("Setting component is invalid.");
+                return;
+            }
 
             m_LocalizationManager.SetAssetManager(GameFrameworkEntry.GetModule<IAssetManager>());
 
-
-            LocalizationHelperBase localizationHelper =
-                Helper.CreateHelper(m_LocalizationHelperTypeName, m_CustomLocalizationHelper);
+            LocalizationHelperBase localizationHelper = Helper.CreateHelper(m_LocalizationHelperTypeName, m_CustomLocalizationHelper);
             if (localizationHelper == null)
             {
                 Log.Error("Can not create localization helper.");
@@ -137,133 +169,10 @@ namespace GameFrameX.Localization.Runtime
             localizationHelperTransform.localScale = Vector3.one;
 
             m_LocalizationManager.SetLocalizationHelper(localizationHelper);
-            // m_LocalizationManager.Language = baseComponent.EditorLanguage != Language.Unspecified ? baseComponent.EditorLanguage : m_LocalizationManager.SystemLanguage;
-            if (m_CachedBytesSize > 0)
-            {
-                EnsureCachedBytesSize(m_CachedBytesSize);
-            }
-        }
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public void EnsureCachedBytesSize(int ensureSize)
-        {
-            // m_LocalizationManager.EnsureCachedBytesSize(ensureSize);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        public void ReadData(string dictionaryAssetName)
-        {
-            // m_LocalizationManager.ReadData(dictionaryAssetName);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        public void ReadData(string dictionaryAssetName, int priority)
-        {
-            // m_LocalizationManager.ReadData(dictionaryAssetName, priority);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, object userData)
-        {
-            // m_LocalizationManager.ReadData(dictionaryAssetName, userData);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, int priority, object userData)
-        {
-            // m_LocalizationManager.ReadData(dictionaryAssetName, priority, userData);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryString);
-            return false;
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString, object userData)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryString, userData);
-            return false;
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryBytes);
-            return false;
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, object userData)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryBytes, userData);
-            return false;
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryBytes, startIndex, length);
-            return false;
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length, object userData)
-        {
-            // return m_LocalizationManager.ParseData(dictionaryBytes, startIndex, length, userData);
-            return false;
+#if UNITY_EDITOR
+            m_LocalizationManager.Language = EditorLanguage != Language.Unspecified ? EditorLanguage : m_LocalizationManager.SystemLanguage;
+#endif
+            DefaultLanguage = m_DefaultLanguage != Language.Unspecified ? m_DefaultLanguage : m_LocalizationManager.SystemLanguage;
         }
 
         /// <summary>
@@ -522,7 +431,7 @@ namespace GameFrameX.Localization.Runtime
             T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11);
+                                                   arg11);
         }
 
         /// <summary>
@@ -558,7 +467,7 @@ namespace GameFrameX.Localization.Runtime
             T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11, arg12);
+                                                   arg11, arg12);
         }
 
         /// <summary>
@@ -596,7 +505,7 @@ namespace GameFrameX.Localization.Runtime
             T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11, arg12, arg13);
+                                                   arg11, arg12, arg13);
         }
 
         /// <summary>
@@ -637,7 +546,7 @@ namespace GameFrameX.Localization.Runtime
             T13 arg13, T14 arg14)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11, arg12, arg13, arg14);
+                                                   arg11, arg12, arg13, arg14);
         }
 
         /// <summary>
@@ -680,7 +589,7 @@ namespace GameFrameX.Localization.Runtime
             T13 arg13, T14 arg14, T15 arg15)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11, arg12, arg13, arg14, arg15);
+                                                   arg11, arg12, arg13, arg14, arg15);
         }
 
         /// <summary>
@@ -726,7 +635,7 @@ namespace GameFrameX.Localization.Runtime
             T15 arg15, T16 arg16)
         {
             return m_LocalizationManager.GetString(key, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10,
-                arg11, arg12, arg13, arg14, arg15, arg16);
+                                                   arg11, arg12, arg13, arg14, arg15, arg16);
         }
 
         /// <summary>

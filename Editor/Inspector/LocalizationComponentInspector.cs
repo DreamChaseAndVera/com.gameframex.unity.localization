@@ -14,9 +14,9 @@ namespace GameFrameX.Localization.Editor
     [CustomEditor(typeof(LocalizationComponent))]
     internal sealed class LocalizationComponentInspector : ComponentTypeComponentInspector
     {
-        private SerializedProperty m_EnableLoadDictionaryUpdateEvent = null;
-        private SerializedProperty m_CachedBytesSize = null;
+        // private SerializedProperty m_EnableLoadDictionaryUpdateEvent = null;
         private SerializedProperty m_EditorLanguage = null;
+        private SerializedProperty m_DefaultLanguage = null;
 
         private HelperInfo<LocalizationHelperBase> m_LocalizationHelperInfo = new HelperInfo<LocalizationHelperBase>("Localization");
 
@@ -30,11 +30,11 @@ namespace GameFrameX.Localization.Editor
 
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
+                m_LocalizationHelperInfo.Draw();
+                EditorGUILayout.PropertyField(m_DefaultLanguage);
                 EditorGUILayout.PropertyField(m_EditorLanguage);
                 EditorGUILayout.HelpBox("Editor language option is only use for localization test in editor mode.", MessageType.Info);
-                EditorGUILayout.PropertyField(m_EnableLoadDictionaryUpdateEvent);
-                m_LocalizationHelperInfo.Draw();
-                EditorGUILayout.PropertyField(m_CachedBytesSize);
+                // EditorGUILayout.PropertyField(m_EnableLoadDictionaryUpdateEvent);
             }
             EditorGUI.EndDisabledGroup();
 
@@ -42,8 +42,6 @@ namespace GameFrameX.Localization.Editor
             {
                 EditorGUILayout.LabelField("Language", localizationComponent.Language.ToString());
                 EditorGUILayout.LabelField("System Language", localizationComponent.SystemLanguage.ToString());
-                EditorGUILayout.LabelField("Dictionary Count", localizationComponent.DictionaryCount.ToString());
-                // EditorGUILayout.LabelField("Cached Bytes Size", t.CachedBytesSize.ToString());
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -60,9 +58,9 @@ namespace GameFrameX.Localization.Editor
 
         protected override void Enable()
         {
-            m_EnableLoadDictionaryUpdateEvent = serializedObject.FindProperty("m_EnableLoadDictionaryUpdateEvent");
-            m_CachedBytesSize = serializedObject.FindProperty("m_CachedBytesSize");
+            // m_EnableLoadDictionaryUpdateEvent = serializedObject.FindProperty("m_EnableLoadDictionaryUpdateEvent");
             m_EditorLanguage = serializedObject.FindProperty("m_EditorLanguage");
+            m_DefaultLanguage = serializedObject.FindProperty("m_DefaultLanguage");
             m_LocalizationHelperInfo.Init(serializedObject);
             m_LocalizationHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
