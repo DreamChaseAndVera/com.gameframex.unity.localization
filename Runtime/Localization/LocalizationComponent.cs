@@ -79,8 +79,27 @@ namespace GameFrameX.Localization.Runtime
         /// </summary>
         public Language Language
         {
-            get { return m_LocalizationManager.Language; }
-            set { m_LocalizationManager.Language = value; }
+            get
+            {
+                if (m_LocalizationManager.Language == Language.Unspecified)
+                {
+                    var value = m_SettingComponent.GetString(nameof(LocalizationComponent) + "." + nameof(Language));
+                    if (value.IsNotNullOrWhiteSpace() && Enum.TryParse(value, true, out Language result))
+                    {
+                        m_LocalizationManager.Language = result;
+                    }
+                }
+
+                return m_LocalizationManager.Language;
+            }
+            set
+            {
+                if (m_LocalizationManager.Language != value)
+                {
+                    m_LocalizationManager.Language = value;
+                    m_SettingComponent.SetString(nameof(LocalizationComponent) + "." + nameof(Language), value.ToString());
+                }
+            }
         }
 
         /// <summary>
@@ -170,7 +189,12 @@ namespace GameFrameX.Localization.Runtime
 
             m_LocalizationManager.SetLocalizationHelper(localizationHelper);
 #if UNITY_EDITOR
-            m_LocalizationManager.Language = EditorLanguage != Language.Unspecified ? EditorLanguage : m_LocalizationManager.SystemLanguage;
+            Language = EditorLanguage != Language.Unspecified ? EditorLanguage : m_LocalizationManager.SystemLanguage;
+#else
+            if (m_LocalizationManager.Language == Language.Unspecified)
+            {
+                Language = m_LocalizationManager.SystemLanguage;
+            }
 #endif
             DefaultLanguage = m_DefaultLanguage != Language.Unspecified ? m_DefaultLanguage : m_LocalizationManager.SystemLanguage;
         }
