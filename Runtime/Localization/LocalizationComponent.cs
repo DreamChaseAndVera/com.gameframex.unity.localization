@@ -175,7 +175,7 @@ namespace GameFrameX.Localization.Runtime
             DefaultLanguage = m_DefaultLanguage != Language.Unspecified ? m_DefaultLanguage : m_LocalizationManager.SystemLanguage;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// 根据字典主键获取字典内容字符串。
         /// </summary>
         /// <param name="key">字典主键。</param>
@@ -674,7 +674,7 @@ namespace GameFrameX.Localization.Runtime
         public void RemoveAllRawStrings()
         {
             m_LocalizationManager.RemoveAllRawStrings();
-        }
+        }*/
 
         /*
         private void OnReadDataSuccess(object sender, ReadDataSuccessEventArgs e)
