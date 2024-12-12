@@ -31,6 +31,7 @@ namespace GameFrameX.Localization.Runtime
         [SerializeField] private Language m_DefaultLanguage = Language.Unspecified;
 
         [SerializeField] private bool m_EnableLoadDictionaryUpdateEvent = false;
+        [SerializeField] private bool m_IsEnableEditorMode = false;
 
         [SerializeField] private string m_LocalizationHelperTypeName = "GameFrameX.Localization.Runtime.DefaultLocalizationHelper";
 
@@ -189,7 +190,10 @@ namespace GameFrameX.Localization.Runtime
 
             m_LocalizationManager.SetLocalizationHelper(localizationHelper);
 #if UNITY_EDITOR
-            Language = EditorLanguage != Language.Unspecified ? EditorLanguage : m_LocalizationManager.SystemLanguage;
+            if (m_IsEnableEditorMode)
+            {
+                Language = EditorLanguage != Language.Unspecified ? EditorLanguage : m_LocalizationManager.SystemLanguage;
+            }
 #else
             if (m_LocalizationManager.Language == Language.Unspecified)
             {

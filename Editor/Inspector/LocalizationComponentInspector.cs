@@ -17,6 +17,7 @@ namespace GameFrameX.Localization.Editor
         // private SerializedProperty m_EnableLoadDictionaryUpdateEvent = null;
         private SerializedProperty m_EditorLanguage = null;
         private SerializedProperty m_DefaultLanguage = null;
+        private SerializedProperty m_IsEnableEditorMode = null;
 
         private HelperInfo<LocalizationHelperBase> m_LocalizationHelperInfo = new HelperInfo<LocalizationHelperBase>("Localization");
 
@@ -32,6 +33,7 @@ namespace GameFrameX.Localization.Editor
             {
                 m_LocalizationHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_DefaultLanguage);
+                EditorGUILayout.PropertyField(m_IsEnableEditorMode);
                 EditorGUILayout.PropertyField(m_EditorLanguage);
                 EditorGUILayout.HelpBox("Editor language option is only use for localization test in editor mode.", MessageType.Info);
                 // EditorGUILayout.PropertyField(m_EnableLoadDictionaryUpdateEvent);
@@ -61,6 +63,7 @@ namespace GameFrameX.Localization.Editor
             // m_EnableLoadDictionaryUpdateEvent = serializedObject.FindProperty("m_EnableLoadDictionaryUpdateEvent");
             m_EditorLanguage = serializedObject.FindProperty("m_EditorLanguage");
             m_DefaultLanguage = serializedObject.FindProperty("m_DefaultLanguage");
+            m_IsEnableEditorMode = serializedObject.FindProperty("m_IsEnableEditorMode");
             m_LocalizationHelperInfo.Init(serializedObject);
             m_LocalizationHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
