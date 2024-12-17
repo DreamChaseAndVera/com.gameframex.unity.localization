@@ -71,6 +71,7 @@ namespace GameFrameX.Localization.Runtime
                 {
                     m_LocalizationManager.DefaultLanguage = value;
                     m_SettingComponent.SetString(nameof(LocalizationComponent) + "." + nameof(DefaultLanguage), value.ToString());
+                    m_SettingComponent.Save();
                 }
             }
         }
@@ -99,6 +100,7 @@ namespace GameFrameX.Localization.Runtime
                 {
                     m_LocalizationManager.Language = value;
                     m_SettingComponent.SetString(nameof(LocalizationComponent) + "." + nameof(Language), value.ToString());
+                    m_SettingComponent.Save();
                 }
             }
         }
