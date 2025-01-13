@@ -98,9 +98,12 @@ namespace GameFrameX.Localization.Runtime
             {
                 if (m_LocalizationManager.Language != value)
                 {
+                    var oldLanguage = m_LocalizationManager.Language;
                     m_LocalizationManager.Language = value;
                     m_SettingComponent.SetString(nameof(LocalizationComponent) + "." + nameof(Language), value.ToString());
                     m_SettingComponent.Save();
+                    var localizationLanguageChangeEventArgs = LocalizationLanguageChangeEventArgs.Create(oldLanguage, value);
+                    m_EventComponent.Fire(this, localizationLanguageChangeEventArgs);
                 }
             }
         }
