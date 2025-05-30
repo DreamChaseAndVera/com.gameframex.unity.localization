@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.3](https://github.com/GameFrameX/com.gameframex.unity.localization/tree/1.0.3) (2025-05-30)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.localization/compare/1.0.2...1.0.3)
+
 ## [1.0.2](https://github.com/GameFrameX/com.gameframex.unity.localization/tree/1.0.2) (2025-01-13)
 
 [Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.localization/compare/1.0.1...1.0.2)
