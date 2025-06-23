@@ -1,11 +1,9 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
+﻿// GameFrameX 组织下的以及组织衍生的项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+// 
+// 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE 文件。
+// 
+// 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
 
-using GameFrameX.Localization;
 using UnityEngine;
 
 namespace GameFrameX.Localization.Runtime
@@ -18,55 +16,6 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取系统语言。
         /// </summary>
-        public abstract Language SystemLanguage { get; }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="localizationManager">本地化管理器。</param>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="dictionaryAsset">字典资源。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否读取字典成功。</returns>
-        public abstract bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName, object dictionaryAsset, object userData);
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="localizationManager">本地化管理器。</param>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="dictionaryBytes">字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否读取字典成功。</returns>
-        public abstract bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName, byte[] dictionaryBytes, int startIndex, int length, object userData);
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="localizationManager">本地化管理器。</param>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public abstract bool ParseData(ILocalizationManager localizationManager, string dictionaryString, object userData);
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="localizationManager">本地化管理器。</param>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public abstract bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex, int length, object userData);
-
-        /// <summary>
-        /// 释放字典资源。
-        /// </summary>
-        /// <param name="localizationManager">本地化管理器。</param>
-        /// <param name="dictionaryAsset">要释放的字典资源。</param>
-        public abstract void ReleaseDataAsset(ILocalizationManager localizationManager, object dictionaryAsset);
+        public abstract string SystemLanguage { get; }
     }
 }

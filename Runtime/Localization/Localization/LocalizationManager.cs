@@ -1,9 +1,8 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
+﻿// GameFrameX 组织下的以及组织衍生的项目的版权、商标、专利和其他相关权利均受相应法律法规的保护。使用本项目应遵守相关法律法规和许可证的要求。
+// 
+// 本项目主要遵循 MIT 许可证和 Apache 许可证（版本 2.0）进行分发和使用。许可证位于源代码树根目录中的 LICENSE 文件。
+// 
+// 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
 
 using System;
 using System.Collections.Generic;
@@ -21,8 +20,13 @@ namespace GameFrameX.Localization.Runtime
     {
         private readonly Dictionary<string, string> _dictionary;
         private ILocalizationHelper _localizationHelper;
-        private Language _defaultLanguage;
-        private Language _language;
+        private string _defaultLanguage;
+        private string _language;
+
+        /// <summary>
+        /// 未知本地化
+        /// </summary>
+        const string UnknownLocalization = "zxx";
 
         /// <summary>
         /// 初始化本地化管理器的新实例。
@@ -31,19 +35,19 @@ namespace GameFrameX.Localization.Runtime
         {
             _dictionary = new Dictionary<string, string>(StringComparer.Ordinal);
             _localizationHelper = null;
-            _defaultLanguage = Language.Unspecified;
-            _language = Language.Unspecified;
+            _defaultLanguage = UnknownLocalization;
+            _language = UnknownLocalization;
         }
 
         /// <summary>
         /// 获取或设置 默认本地化语言。当加载本地化失败时使用。
         /// </summary>
-        public Language DefaultLanguage
+        public string DefaultLanguage
         {
             get { return _defaultLanguage; }
             set
             {
-                if (value == Language.Unspecified)
+                if (value == UnknownLocalization)
                 {
                     throw new GameFrameworkException("default Language is invalid.");
                 }
@@ -55,12 +59,12 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取或设置本地化语言。
         /// </summary>
-        public Language Language
+        public string Language
         {
             get { return _language; }
             set
             {
-                if (value == Language.Unspecified)
+                if (value == UnknownLocalization)
                 {
                     throw new GameFrameworkException("Language is invalid.");
                 }
@@ -72,7 +76,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取系统语言。
         /// </summary>
-        public Language SystemLanguage
+        public string SystemLanguage
         {
             get
             {
@@ -89,52 +93,6 @@ namespace GameFrameX.Localization.Runtime
             get { return _dictionary.Count; }
         }
 
-        /*
-        /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public int CachedBytesSize
-        {
-            get { return DataProvider<ILocalizationManager>.CachedBytesSize; }
-        }
-
-        /// <summary>
-        /// 读取字典成功事件。
-        /// </summary>
-        public event EventHandler<ReadDataSuccessEventArgs> ReadDataSuccess
-        {
-            add { m_DataProvider.ReadDataSuccess += value; }
-            remove { m_DataProvider.ReadDataSuccess -= value; }
-        }
-
-        /// <summary>
-        /// 读取字典失败事件。
-        /// </summary>
-        public event EventHandler<ReadDataFailureEventArgs> ReadDataFailure
-        {
-            add { m_DataProvider.ReadDataFailure += value; }
-            remove { m_DataProvider.ReadDataFailure -= value; }
-        }
-
-        /// <summary>
-        /// 读取字典更新事件。
-        /// </summary>
-        public event EventHandler<ReadDataUpdateEventArgs> ReadDataUpdate
-        {
-            add { m_DataProvider.ReadDataUpdate += value; }
-            remove { m_DataProvider.ReadDataUpdate -= value; }
-        }
-
-        /// <summary>
-        /// 读取字典时加载依赖资源事件。
-        /// </summary>
-        public event EventHandler<ReadDataDependencyAssetEventArgs> ReadDataDependencyAsset
-        {
-            add { m_DataProvider.ReadDataDependencyAsset += value; }
-            remove { m_DataProvider.ReadDataDependencyAsset -= value; }
-        }
-        */
-
         /// <summary>
         /// 本地化管理器轮询。
         /// </summary>
@@ -150,133 +108,6 @@ namespace GameFrameX.Localization.Runtime
         protected override void Shutdown()
         {
         }
-
-        /// <summary>
-        /// 设置资源管理器。
-        /// </summary>
-        /// <param name="resourceManager">资源管理器。</param>
-        public void SetAssetManager(IAssetManager resourceManager)
-        {
-            // m_DataProvider.SetResourceManager(resourceManager);
-        }
-
-        /// <summary>
-        /// 设置本地化辅助器。
-        /// </summary>
-        /// <param name="localizationHelper">本地化辅助器。</param>
-        public void SetLocalizationHelper(ILocalizationHelper localizationHelper)
-        {
-            GameFrameworkGuard.NotNull(localizationHelper, nameof(localizationHelper));
-            _localizationHelper = localizationHelper;
-        }
-
-        /*
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        public void ReadData(string dictionaryAssetName)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        public void ReadData(string dictionaryAssetName, int priority)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName, priority);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, object userData)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName, userData);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, int priority, object userData)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName, priority, userData);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString)
-        {
-            return m_DataProvider.ParseData(dictionaryString);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryString, userData);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes, userData);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes, startIndex, length);
-        }
-
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes, startIndex, length, userData);
-        }*/
 
         /// <summary>
         /// 根据字典主键获取字典内容字符串。

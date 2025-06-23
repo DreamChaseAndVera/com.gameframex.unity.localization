@@ -36,14 +36,15 @@ namespace GameFrameX.Localization.Editor
                 EditorGUILayout.PropertyField(m_IsEnableEditorMode);
                 EditorGUILayout.PropertyField(m_EditorLanguage);
                 EditorGUILayout.HelpBox("Editor language option is only use for localization test in editor mode.", MessageType.Info);
+                EditorGUILayout.HelpBox("Language Code: https://datatracker.ietf.org/doc/html/rfc5646", MessageType.Info);
                 // EditorGUILayout.PropertyField(m_EnableLoadDictionaryUpdateEvent);
             }
             EditorGUI.EndDisabledGroup();
 
             if (EditorApplication.isPlaying && IsPrefabInHierarchy(localizationComponent.gameObject))
             {
-                EditorGUILayout.LabelField("Language", localizationComponent.Language.ToString());
-                EditorGUILayout.LabelField("System Language", localizationComponent.SystemLanguage.ToString());
+                EditorGUILayout.LabelField("Language", localizationComponent.Language);
+                EditorGUILayout.LabelField("System Language", localizationComponent.SystemLanguage);
             }
 
             serializedObject.ApplyModifiedProperties();

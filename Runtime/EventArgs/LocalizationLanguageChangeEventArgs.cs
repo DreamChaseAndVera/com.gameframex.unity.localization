@@ -16,20 +16,23 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 当前语言。
         /// </summary>
-        public Language Language { get; set; }
-
+        public string Language { get; set; }
+        /// <summary>
+        /// 未知本地化
+        /// </summary>
+        const string UnknownLocalization = "zxx";
         /// <summary>
         /// 旧的语言。
         /// </summary>
-        public Language OldLanguage { get; set; }
+        public string OldLanguage { get; set; }
 
         /// <summary>
         /// 初始化本地化语言改变事件的新实例。
         /// </summary>
         public LocalizationLanguageChangeEventArgs()
         {
-            OldLanguage = Language.Unspecified;
-            Language = Language.Unspecified;
+            OldLanguage = UnknownLocalization;
+            Language = UnknownLocalization;
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace GameFrameX.Localization.Runtime
         /// <param name="oldLanguage">旧的语言。</param>
         /// <param name="language">当前语言。</param>
         /// <returns>创建的本地化语言改变事件。</returns>
-        public static LocalizationLanguageChangeEventArgs Create(Language oldLanguage, Language language)
+        public static LocalizationLanguageChangeEventArgs Create(string oldLanguage, string language)
         {
             LocalizationLanguageChangeEventArgs localizationLanguageChangeEventArgs = ReferencePool.Acquire<LocalizationLanguageChangeEventArgs>();
             localizationLanguageChangeEventArgs.OldLanguage = oldLanguage;
@@ -51,8 +54,8 @@ namespace GameFrameX.Localization.Runtime
         /// </summary>
         public override void Clear()
         {
-            OldLanguage = Language.Unspecified;
-            Language = Language.Unspecified;
+            OldLanguage = UnknownLocalization;
+            Language = UnknownLocalization;
         }
 
         /// <summary>
