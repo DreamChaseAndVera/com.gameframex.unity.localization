@@ -94,6 +94,16 @@ namespace GameFrameX.Localization.Runtime
         }
 
         /// <summary>
+        /// 设置本地化辅助器。
+        /// </summary>
+        /// <param name="localizationHelper">本地化辅助器。</param>
+        public void SetLocalizationHelper(ILocalizationHelper localizationHelper)
+        {
+            GameFrameworkGuard.NotNull(localizationHelper, nameof(localizationHelper));
+            _localizationHelper = localizationHelper;
+        }
+
+        /// <summary>
         /// 本地化管理器轮询。
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>

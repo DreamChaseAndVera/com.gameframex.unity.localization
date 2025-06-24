@@ -32,6 +32,12 @@ namespace GameFrameX.Localization.Runtime
         int DictionaryCount { get; }
 
         /// <summary>
+        /// 设置本地化辅助器。
+        /// </summary>
+        /// <param name="localizationHelper">本地化辅助器。</param>
+        void SetLocalizationHelper(ILocalizationHelper localizationHelper);
+
+        /// <summary>
         /// 根据字典主键获取字典内容字符串。
         /// </summary>
         /// <param name="key">字典主键。</param>

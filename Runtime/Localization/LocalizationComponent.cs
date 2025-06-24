@@ -23,10 +23,12 @@ namespace GameFrameX.Localization.Runtime
 
         private EventComponent m_EventComponent = null;
         private SettingComponent m_SettingComponent = null;
+
         /// <summary>
         /// 未知本地化
         /// </summary>
         const string UnknownLocalization = "zxx";
+
         [SerializeField] private string m_EditorLanguage = "zh_CN";
 
         [SerializeField] private string m_DefaultLanguage = "zh_CN";
@@ -58,7 +60,7 @@ namespace GameFrameX.Localization.Runtime
                 if (m_LocalizationManager.DefaultLanguage == UnknownLocalization)
                 {
                     var value = m_SettingComponent.GetString(nameof(LocalizationComponent) + "." + nameof(DefaultLanguage));
-                    if (value.IsNotNullOrWhiteSpace() )
+                    if (value.IsNotNullOrWhiteSpace())
                     {
                         m_LocalizationManager.DefaultLanguage = value;
                     }
@@ -87,7 +89,7 @@ namespace GameFrameX.Localization.Runtime
                 if (m_LocalizationManager.Language == UnknownLocalization)
                 {
                     var value = m_SettingComponent.GetString(nameof(LocalizationComponent) + "." + nameof(Language));
-                    if (value.IsNotNullOrWhiteSpace() )
+                    if (value.IsNotNullOrWhiteSpace())
                     {
                         m_LocalizationManager.Language = value;
                     }
@@ -185,7 +187,7 @@ namespace GameFrameX.Localization.Runtime
             Transform localizationHelperTransform = localizationHelper.transform;
             localizationHelperTransform.SetParent(this.transform);
             localizationHelperTransform.localScale = Vector3.one;
-
+            m_LocalizationManager.SetLocalizationHelper(localizationHelper);
 #if UNITY_EDITOR
             if (m_IsEnableEditorMode)
             {
