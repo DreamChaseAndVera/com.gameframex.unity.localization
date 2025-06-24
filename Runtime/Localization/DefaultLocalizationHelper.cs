@@ -13,7 +13,7 @@ namespace GameFrameX.Localization.Runtime
     /// </summary>
     public class DefaultLocalizationHelper : LocalizationHelperBase
     {
-        readonly string _regionName = RegionInfo.CurrentRegion.Name.Replace("-", "_");
+        readonly string _regionName = CultureInfo.CurrentCulture.Name.Replace("-", "_");
 
         /// <summary>
         /// 获取系统语言。
