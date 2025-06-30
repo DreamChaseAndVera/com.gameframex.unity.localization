@@ -8,6 +8,7 @@ using GameFrameX.Event.Runtime;
 using GameFrameX.Runtime;
 using GameFrameX.Setting.Runtime;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Localization.Runtime
 {
@@ -17,6 +18,7 @@ namespace GameFrameX.Localization.Runtime
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework/Localization")]
     [HelpURL("https://datatracker.ietf.org/doc/html/rfc5646")]
+    [Preserve]
     public sealed class LocalizationComponent : GameFrameworkComponent
     {
         private ILocalizationManager m_LocalizationManager = null;
@@ -44,6 +46,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取或设置编辑器语言（仅编辑器内有效）。
         /// </summary>
+        [Preserve]
         public string EditorLanguage
         {
             get { return m_EditorLanguage; }
@@ -53,6 +56,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取或设置 默认本地化语言。当加载本地化失败时使用。
         /// </summary>
+        [Preserve]
         public string DefaultLanguage
         {
             get
@@ -82,6 +86,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取或设置本地化语言。
         /// </summary>
+        [Preserve]
         public string Language
         {
             get
@@ -114,6 +119,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取系统语言。
         /// </summary>
+        [Preserve]
         public string SystemLanguage
         {
             get { return m_LocalizationManager.SystemLanguage; }
@@ -122,6 +128,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取字典数量。
         /// </summary>
+        [Preserve]
         public int DictionaryCount
         {
             get { return m_LocalizationManager.DictionaryCount; }
@@ -131,6 +138,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 游戏框架组件初始化。
         /// </summary>
+        [Preserve]
         protected override void Awake()
         {
             ImplementationComponentType = Utility.Assembly.GetType(componentType);
@@ -152,6 +160,7 @@ namespace GameFrameX.Localization.Runtime
             }*/
         }
 
+        [Preserve]
         private void Start()
         {
             BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();

@@ -7,22 +7,25 @@
 
 using GameFrameX.Event.Runtime;
 using GameFrameX.Runtime;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Localization.Runtime
 {
     /// <summary>
     /// 加载字典成功事件。
     /// </summary>
+    [Preserve]
     public sealed class LoadDictionarySuccessEventArgs : GameEventArgs
     {
         /// <summary>
         /// 加载字典成功事件编号。
         /// </summary>
-        public static readonly string EventId = typeof(LoadDictionarySuccessEventArgs).FullName;
+        [Preserve] public static readonly string EventId = typeof(LoadDictionarySuccessEventArgs).FullName;
 
         /// <summary>
         /// 初始化加载字典成功事件的新实例。
         /// </summary>
+        [Preserve]
         public LoadDictionarySuccessEventArgs()
         {
             DictionaryAssetName = null;
@@ -33,6 +36,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取加载字典成功事件编号。
         /// </summary>
+        [Preserve]
         public override string Id
         {
             get { return EventId; }
@@ -41,16 +45,19 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 获取字典资源名称。
         /// </summary>
+        [Preserve]
         public string DictionaryAssetName { get; private set; }
 
         /// <summary>
         /// 获取加载持续时间。
         /// </summary>
+        [Preserve]
         public float Duration { get; private set; }
 
         /// <summary>
         /// 获取用户自定义数据。
         /// </summary>
+        [Preserve]
         public object UserData { get; private set; }
 
         /// <summary>
@@ -60,6 +67,7 @@ namespace GameFrameX.Localization.Runtime
         /// <param name="duration">加载持续时间。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>创建的加载字典成功事件。</returns>
+        [Preserve]
         public static LoadDictionarySuccessEventArgs Create(string dataAssetName, float duration, object userData)
         {
             LoadDictionarySuccessEventArgs loadDictionarySuccessEventArgs = ReferencePool.Acquire<LoadDictionarySuccessEventArgs>();
@@ -72,6 +80,7 @@ namespace GameFrameX.Localization.Runtime
         /// <summary>
         /// 清理加载字典成功事件。
         /// </summary>
+        [Preserve]
         public override void Clear()
         {
             DictionaryAssetName = null;

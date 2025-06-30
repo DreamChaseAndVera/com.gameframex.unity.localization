@@ -5,17 +5,20 @@
 // 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
 
 using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Localization.Runtime
 {
     /// <summary>
     /// 本地化辅助器基类。
     /// </summary>
+    [Preserve]
     public abstract class LocalizationHelperBase : MonoBehaviour, ILocalizationHelper
     {
         /// <summary>
         /// 获取系统语言。
         /// </summary>
+        [Preserve]
         public abstract string SystemLanguage { get; }
     }
 }

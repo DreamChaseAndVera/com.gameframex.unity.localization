@@ -5,19 +5,27 @@
 // 不得利用本项目从事危害国家安全、扰乱社会秩序、侵犯他人合法权益等法律法规禁止的活动！任何基于本项目二次开发而产生的一切法律纠纷和责任，我们不承担任何责任！
 
 using System.Globalization;
+using UnityEngine.Scripting;
 
 namespace GameFrameX.Localization.Runtime
 {
     /// <summary>
     /// 默认本地化辅助器。
     /// </summary>
+    [Preserve]
     public class DefaultLocalizationHelper : LocalizationHelperBase
     {
         readonly string _regionName = CultureInfo.CurrentCulture.Name.Replace("-", "_");
 
+        [Preserve]
+        public DefaultLocalizationHelper()
+        {
+        }
+
         /// <summary>
         /// 获取系统语言。
         /// </summary>
+        [Preserve]
         public override string SystemLanguage
         {
             get { return _regionName; }
