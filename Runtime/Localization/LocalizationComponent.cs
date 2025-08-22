@@ -203,7 +203,7 @@ namespace GameFrameX.Localization.Runtime
                 Language = EditorLanguage != UnknownLocalization ? EditorLanguage : m_LocalizationManager.SystemLanguage;
             }
 #else
-            if (m_LocalizationManager.Language == UnknownLocalization)
+            if (Language == UnknownLocalization)
             {
                 Language = m_LocalizationManager.SystemLanguage;
             }
