@@ -695,6 +695,16 @@ namespace GameFrameX.Localization.Runtime
         }
 
         /// <summary>
+        /// 添加字典。
+        /// </summary>
+        /// <param name="key">字典主键。</param>
+        /// <param name="value">字典值。</param>
+        public void AddRawString(string key, string value)
+        {
+            m_LocalizationManager.AddRawString(key, value);
+        }
+
+        /// <summary>
         /// 移除字典。
         /// </summary>
         /// <param name="key">字典主键。</param>
